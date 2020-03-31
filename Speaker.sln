@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakerLibrary", "SpeakerLibrary\SpeakerLibrary.csproj", "{37EB3A5E-47B9-41F9-AE63-4DEC5C50A050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeakerLibrary", "SpeakerLibrary\SpeakerLibrary.csproj", "{37EB3A5E-47B9-41F9-AE63-4DEC5C50A050}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakerAPI", "SpeakerAPI\SpeakerAPI.csproj", "{D8CA1045-4F94-4911-8CC8-18BA0A08AA22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeakerAPI", "SpeakerAPI\SpeakerAPI.csproj", "{D8CA1045-4F94-4911-8CC8-18BA0A08AA22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorClientSide", "BlazorClientSide\BlazorClientSide.csproj", "{649C3477-9FD4-450C-A8BC-2B1E504C81DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,11 +18,14 @@ Global
 		{37EB3A5E-47B9-41F9-AE63-4DEC5C50A050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37EB3A5E-47B9-41F9-AE63-4DEC5C50A050}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37EB3A5E-47B9-41F9-AE63-4DEC5C50A050}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37EB3A5E-47B9-41F9-AE63-4DEC5C50A050}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8CA1045-4F94-4911-8CC8-18BA0A08AA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8CA1045-4F94-4911-8CC8-18BA0A08AA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8CA1045-4F94-4911-8CC8-18BA0A08AA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8CA1045-4F94-4911-8CC8-18BA0A08AA22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649C3477-9FD4-450C-A8BC-2B1E504C81DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649C3477-9FD4-450C-A8BC-2B1E504C81DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649C3477-9FD4-450C-A8BC-2B1E504C81DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649C3477-9FD4-450C-A8BC-2B1E504C81DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

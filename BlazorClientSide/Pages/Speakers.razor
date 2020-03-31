@@ -1,0 +1,200 @@
+﻿@page "/speakers"
+@inject HttpClient httpClient
+
+<h1>Speakers</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (speakers == null)
+{
+<p><em>Loading...</em></p>
+}
+else
+{
+<button @onclick="@Add" class="btn btn-success">Add</button>
+<table class='table table-hover'>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Emaill</th>
+            <th>Mobile Number</th>
+            <th>Specialization</th>
+            <th>City</th>
+            <th>Provincel</th>
+            <th>Employer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in speakers)
+            {
+        <tr>
+            <td>@item.SpeakerId</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.Email</td>
+            <td>@item.MobileNumber</td>
+            <td>@item.Specialization</td>
+            <td>@item.City</td>
+            <td>@item.Province</td>
+            <td>@item.Employer</td>
+            <td><a class="btn btn-success btn-sm" @onclick="@(() => ShowEdit(item.SpeakerId))">Edit</a></td>
+            <td><a class="btn btn-danger btn-sm" @onclick="@(() => ShowDelete(item.SpeakerId))">Delete</a></td>
+        </tr>
+            }
+    </tbody>
+</table>
+}
+
+@if (speakers != null && mode == MODE.Add) // Insert form
+{
+<EditForm Model="@speaker" OnValidSubmit="@HandleAdd">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText placeholder="First Name" id="firstName" @bind-Value="@speaker.FirstName" />
+    <br />
+    <InputText placeholder="Last Name" id="lastName" @bind-Value="@speaker.LastName" />
+    <br />
+    <InputText placeholder="Email" id="email" @bind-Value="@speaker.Email" />
+    <br />
+    <InputText placeholder="Mobile Number" id="mobilenumber" @bind-Value="@speaker.MobileNumber" />
+    <br />
+    <InputText placeholder="Specialization" id="specialization" @bind-Value="@speaker.Specialization" />
+    <br />
+    <InputText placeholder="City" id="city" @bind-Value="@speaker.City" />
+    <br />
+    <InputText placeholder="Province" id="province" @bind-Value="@speaker.Province" />
+    <br />
+    <InputText placeholder="Employer" id="employer" @bind-Value="@speaker.Employer" />
+    <br />
+
+    <button type="submit">Add Speaker</button>
+</EditForm>
+@code {
+ private Speaker speaker = new Speaker();
+ private async void HandleAdd() {
+   string endpoint = $"{baseUrl}api/speakers";
+   speaker.SpeakerId = Guid.NewGuid().ToString();
+   await httpClient.SendJsonAsync(HttpMethod.Post, endpoint, speaker);
+   await load();
+   mode = MODE.None;
+ }
+}
+}
+
+@if (speakers != null && mode == MODE.Edit) // Update
+{
+<EditForm Model="@speaker" OnValidSubmit="@HandleUpdate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText placeholder="First Name" id="firstName" @bind-Value="@speaker.FirstName" />
+    <br />
+    <InputText placeholder="Last Name" id="lastName" @bind-Value="@speaker.LastName" />
+    <br />
+    <InputText placeholder="Email" id="email" @bind-Value="@speaker.Email" />
+    <br />
+    <InputText placeholder="Mobile Number" id="mobilenumber" @bind-Value="@speaker.MobileNumber" />
+    <br />
+    <InputText placeholder="Specialization" id="specialization" @bind-Value="@speaker.Specialization" />
+    <br />
+    <InputText placeholder="City" id="city" @bind-Value="@speaker.City" />
+    <br />
+    <InputText placeholder="Province" id="province" @bind-Value="@speaker.Province" />
+    <br />
+    <InputText placeholder="Employer" id="employer" @bind-Value="@speaker.Employer" />
+    <br />
+    <button type="submit" class="btn btn-success">Submit</button>
+    @code {
+     private async void HandleUpdate() {
+       string endpoint = $"{baseUrl}api/speakers/{speaker.SpeakerId}";
+       await httpClient.SendJsonAsync(HttpMethod.Put, endpoint, speaker);
+       await load();
+       mode = MODE.None;
+     }
+    }
+</EditForm>
+}
+
+@if (speakers != null && mode == MODE.Delete) // Delete form
+{
+<EditForm Model="@speaker" OnValidSubmit="@HandleDelete">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText placeholder="First Name" id="firstName" @bind-Value="@speaker.FirstName" />
+    <br />
+    <InputText placeholder="Last Name" id="lastName" @bind-Value="@speaker.LastName" />
+    <br />
+    <InputText placeholder="Email" id="email" @bind-Value="@speaker.Email" />
+    <br />
+    <InputText placeholder="Mobile Number" id="mobilenumber" @bind-Value="@speaker.MobileNumber" />
+    <br />
+    <InputText placeholder="Specialization" id="specialization" @bind-Value="@speaker.Specialization" />
+    <br />
+    <InputText placeholder="City" id="city" @bind-Value="@speaker.City" />
+    <br />
+    <InputText placeholder="Province" id="province" @bind-Value="@speaker.Province" />
+    <br />
+    <InputText placeholder="Employer" id="employer" @bind-Value="@speaker.Employer" />
+    <br />
+    <button type="submit" value="Delete" class="btn btn-danger">Submit</button>
+    @code {
+   protected async void HandleDelete() {
+     string endpoint = $"{baseUrl}api/speakers/{speaker.SpeakerId}";
+     await httpClient.SendJsonAsync(HttpMethod.Delete, endpoint, null);
+     await load();
+     mode = MODE.None;
+   }
+    }
+</EditForm>
+}
+
+
+@functions {
+    Speaker[] speakers;
+    string baseUrl = "https://localhost:5001/";
+    private enum MODE { None, Add, Edit, Delete };
+    MODE mode = MODE.None;
+    Speaker s;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await load();
+    }
+
+    protected async Task load()
+    {
+        speakers = await httpClient.GetJsonAsync<Speaker[]>($"{baseUrl}api/speakers");
+    }
+
+    protected void Add() {
+    mode = MODE.Add;
+}
+
+    protected async Task ShowEdit(string id) {
+    s = await httpClient.GetJsonAsync<Speaker>($"{baseUrl}api/speakers/{id}");
+    speaker.SpeakerId = s.SpeakerId;
+    speaker.FirstName = s.FirstName;
+    speaker.LastName = s.LastName;
+    speaker.Email = s.Email;
+    speaker.MobileNumber = s.MobileNumber;
+    speaker.Specialization = s.Specialization;
+    speaker.City = s.City;
+    speaker.Province = s.Province;
+    speaker.Employer = s.Employer;
+    mode = MODE.Edit;
+}
+    protected async Task ShowDelete(string id) {
+    s = await httpClient.GetJsonAsync<Speaker>($"{baseUrl}api/speakers/{id}");
+    speaker.SpeakerId = s.SpeakerId;
+    speaker.FirstName = s.FirstName;
+    speaker.LastName = s.LastName;
+    speaker.Email = s.Email;
+    speaker.MobileNumber = s.MobileNumber;
+    speaker.Specialization = s.Specialization;
+    speaker.City = s.City;
+    speaker.Province = s.Province;
+    speaker.Employer = s.Employer;
+    mode = MODE.Delete;
+}
+}

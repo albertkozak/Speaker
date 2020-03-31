@@ -57,7 +57,7 @@ namespace SpeakerAPI.Data
                   FirstName = "Alex",
                   LastName = "Cooper",
                   Email = "acooper@gmail.com",
-                  MobileNumber = "604-2121-2121",
+                  MobileNumber = "604-212-2121",
                   Specialization = "HTML/CSS",
                   City = "Chilliwack",
                   Province = "BC",
