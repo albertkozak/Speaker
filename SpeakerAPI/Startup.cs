@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SpeakerAPI.Data;
 
 namespace SpeakerAPI
 {
@@ -26,6 +28,14 @@ namespace SpeakerAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<SpeakerDbContext>(
+                option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // Add Cors
+            services.AddCors(o => o.AddPolicy("Policy", builder => {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +51,8 @@ namespace SpeakerAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("Policy");
 
             app.UseEndpoints(endpoints =>
             {
