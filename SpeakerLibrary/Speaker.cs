@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SpeakerLibrary
 {
-    class Speaker
+    public class Speaker
     {
         public string SpeakerId { get; set; }
         [Required]
