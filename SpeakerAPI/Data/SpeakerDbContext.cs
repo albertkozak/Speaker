@@ -7,5 +7,6 @@ namespace SpeakerAPI.Data
 {
     public class SpeakerDbContext
     {
+        // comment
     }
 }
